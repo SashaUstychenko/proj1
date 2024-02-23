@@ -1,7 +1,10 @@
+#include <atomic>
+#include <ctime>
 #include <iostream>
 #include <algorithm>
 #include <numeric>
 #include <ostream>
+#include <ratio>
 #include <vector>
 #include <map>
 #include "List.h"
@@ -17,6 +20,7 @@
 #include "Prosto.h"
 #include <cassert>
 #include <memory>
+#include <typeinfo>
 //{{{Factorial
 template<int n>
 struct GN
@@ -171,47 +175,55 @@ class Vec
 		int z;
 
 };
-int main()
+
+class Example
 {
-	
-	{
-		int rows = 5;
-	 	for(int i = 1;i<=rows;i++)
-	 	{
-			 for(int j =1;j<=i;j++)
-			 {
-				 if(j==1||j==i)
-				 {
-				 std::cout<<"*";
-				 }
-				 else 
-				 {
-					 std::cout<<" ";
-				 }
-			 }
-			 std::cout<<std::endl;
-	        }
-	}
-	{
-		int rows = 7;
-		for(int i = 1 ;i<=rows;++i)
+		static int num_instances;
+		int i;
+	public:
+		static std::string static_str;
+		static int static_func();
+
+		Example()
 		{
-			for(int j =rows;j>=i;--j)
-			{
-				if(j==i||j!=1-rows)
-				{
-					std::cout<<"*";
-				}
-				else 
-				{
-					std::cout<<" ";				
-				}
-			}
-			std::cout<<std::endl;
+			++num_instances;
 		}
-	}
+		void set_str(const std::string& str);
+};
 
 
+int Example::num_instances;
+std::string Example::static_str = "Hello";
+
+
+bool searchMatrix(const std::vector<std::vector<int>>& matrix, int target) {
+    if (matrix.empty() || matrix[0].empty()) {
+        return false;
+    }
+
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+
+    // Ініціалізуємо покажчики для руху по матриці
+    int row = 0;
+    int col = cols - 1;
+
+    // Починаємо пошук з верхнього правого кута
+    while (row < rows && col >= 0) {
+        if (matrix[row][col] == target) {
+            return true; // Елемент знайдено
+        } else if (matrix[row][col] > target) {
+            col--; // Переміщуємося вліво
+        } else {
+            row++; // Переміщуємося вниз
+        }
+    }
+
+    return false; // Елемент не знайдено
+}
+
+int main() {
+    return 0;
 }
 
 
