@@ -222,10 +222,26 @@ bool searchMatrix(const std::vector<std::vector<int>>& matrix, int target) {
     return false; // Елемент не знайдено
 }
 
-int main() {
-    return 0;
+void print_square_cordinate()
+{
+	const struct
+	{
+		float x;
+		float y;
+	}points[]={ {-1,-1},{-1,1},{1,-1},{1,1} };
+	for(auto const& point : points)
+	{
+		std::cout<<"{"<<std::setw(2)<<point.x<<","
+			      <<std::setw(2)<<point.y<<"}\n";
+	}
+
 }
 
+int main() {
+    
+	print_square_cordinate();	
+	return 0;
+}
 
 
 
