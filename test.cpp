@@ -237,9 +237,28 @@ void print_square_cordinate()
 
 }
 
-int main() {
-    
-	print_square_cordinate();	
+struct aas
+{
+	void print(const std::string& s)
+	{
+		std::cout<<"this is a string - "<<s<<std::endl;
+	}
+	void print(int num) 
+	{
+		std::cout<<"this is a num int - "<<num<<std::endl;
+	}
+	void print(double num)
+	{
+		std::cout<<"this is a num double"<<std::endl;
+	}
+};
+
+
+int main() 
+{
+	aas s;
+	s.print(45.f);
+
 	return 0;
 }
 
