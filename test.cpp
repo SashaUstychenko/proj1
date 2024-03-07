@@ -237,7 +237,7 @@ void print_square_cordinate()
 
 }
 
-struct aas
+struct overloading_Exemple
 {
 	void print(const std::string& s)
 	{
@@ -252,13 +252,29 @@ struct aas
 		std::cout<<"this is a num double"<<std::endl;
 	}
 };
+class Integer 
+{
+	private:
+		int i;
+	public:
+		Integer(int i) 
+			:i(i)
+		{ }
+		void print()
+		{
+			std::cout<<"int"<<std::endl;
+		}
+		void ptint()const
+		{
+			std::cout<<"const int"<<std::endl;
+		}
+
+};
+
 
 
 int main() 
 {
-	aas s;
-	s.print(45.f);
-
 	return 0;
 }
 
