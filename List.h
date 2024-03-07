@@ -1,139 +1,71 @@
-
 #include <cstddef>
-
-class List
+#include <functional>
+#include <iterator>
+#include <utility>
+#include <vector>
+//Це клас C++, який представляє матрицю з можливістю зручного доступу до її елементів за допомогою оператора [][].
+template <class T>
+class matrix
 {
-	public:
-		//----Constructors----
-		
-		List();
-		List(const List& other);
-		List(List&& other) noexcept;
+	template<class C>
+	class proxy_row_vector
+	{
+		using reference = decltype(std::declval<C>()[0]);
+		using const_reference = decltype(std::declval<C const>()[0]);
 
-		//----Destructor----
-		
-		~List();
+		public:
+			proxy_row_vector(C &_vec ,std::size_t _r_ind,std::size_t cols)
+				:vec(_vec),row_index(_r_ind),cols(cols)
+			{ }
+			const_reference operator[](std::size_t _col_index)const
+			{
+				return vec[row_index*cols+_col_index];
+			}
+			reference operator[](std::size_t _col_index)
+			{
+				return vec[row_index*cols+_col_index];
+			}
 
-		//----Insert methods----
+		private:
+			C& vec;
+			std::size_t row_index;
+			std::size_t cols;	
 
-		void PushBack(const int& value);
-		void PushFront(const int& value);
+	};
 
-		//----Remuve methods----
-		
-		void PopBack();
-		void PopFront();
-		void Remove(const int& value);
-		void Clear();
+	using const_proxy = proxy_row_vector<const std::vector<T>>;
+        using proxy = proxy_row_vector<std::vector<T>>;
+public: 
+	matrix() :mtx(),rows(0),cols(0)
+	{ }
+	matrix(std::size_t rows,std::size_t cols)
+		:mtx(rows*cols),rows(rows),cols(cols)
+	{ }
+	const_proxy operator[](std::size_t _row_index)const
+	{
+		return const_proxy(mtx,_row_index,cols);
+	}
+	proxy operator[](std::size_t _row_index)
+	{
+		return proxy(mtx,_row_index,cols);
+	}
 
-		//----Find method----
-		
-		bool Find(const int& value);
-
-		//----Check size methods----
-
-		bool IsEmpty() const;
-		size_t Size() const;
-
-		//----Assigment operators----
-
-		List& operator=(const List& other);
-		List& operator=(List&& other);
-
-		//----Index operator----
-
-		int& operator[](size_t index);
-		const int& operator[](size_t index) const;
-		
-		//----Extra methods----
-		
-		void Show()const;
-
-	private:
-
-		void Copy(const List& other);
-
-		struct Node
-		{
-			int data;
-			Node* next;
-		};
-
-		Node* head;
-
-
-
-
-		
-
+private:
+	std::vector<T> mtx;
+	std::size_t rows;
+	std::size_t cols;
 
 };
-List::List()
-	:head(nullptr)
-{ }
-
-List::List(const List& other)
-	:head(nullptr)
-{
-	
-}
-
-List::List(List&& other) noexcept
-	:head(other.head)
-{
-	other.head = nullptr;
-}
-
-List::~List()
-{
-	Clear();
-}
-
-void List::PushBack(const int& value)
-{
-	if(head == nullptr)
-	{
-		head = new Node{value,nullptr};
-	}
-	else
-	{
-		Node* current = head;
-		 while(current->next != nullptr)
-		 {
-			 current = current->next;
-		 }
-		 current->next = new Node{value,nullptr};
-	}
-}
 
 
-void List::Clear()
-{
-	while(head!= nullptr)
-	{
-		Node* current = head;
-		head = head->next;
-		delete current;
-	}
-}
 
-void List::Show()const
-{
-	if(head == nullptr)
-	{
-		std::cout << "List is empty" << std::endl;
 
-	}
-	else
-	{
-		Node* current = head;
-		while(current != nullptr)
-		{
-			std::cout<<current->data<<" ";
-			current = current->next;
-		}
-		std::cout<<std::endl;
-	}
-}
+
+
+
+
+
+
+
 
 

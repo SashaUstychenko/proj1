@@ -1,4 +1,6 @@
 #include <atomic>
+#include <cstddef>
+#include <cstring>
 #include <ctime>
 #include <iostream>
 #include <algorithm>
@@ -271,10 +273,46 @@ class Integer
 
 };
 
+class base
+{
+	public:
+		virtual void boo()
+		{
+			std::cout<<"Base::boo\n";
+		}
+
+};
+class Derived1 : public base
+{
+	public:
+		void boo()final override
+		{
+			std::cout<<"Derived1::boo\n";
+		}
+};
+class Derived2 :public base
+{
+	public:
+		void boo()
+		{
+			std::cout<<"Derived2::boo\n";
+		}
 
 
+};
+
+struct A     { virtual void f() { std::cout<<"A::f\n";} };
+struct B : A {         void f() { std::cout<<"B::f\n";} };
+
+void call(A& a) { a.f(); }
 int main() 
 {
+	A a;
+	B b;
+	call(a);
+	call(b);
+
+		
 	return 0;
 }
 
